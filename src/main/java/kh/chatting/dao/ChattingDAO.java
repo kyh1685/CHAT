@@ -36,6 +36,10 @@ public class ChattingDAO {
 	}
 	
 	// Room
+	public List<RoomDTO> findAllRoomByUserId(String userId) {
+		return session.selectList("chatting.findAllRoomByUserId",userId);
+	}
+	
 	public int insertRoom(String roomNumber,String roomName) {
 		Map<String,String> param = new HashMap<>();
 		param.put("roomNumber", roomNumber);
@@ -53,4 +57,5 @@ public class ChattingDAO {
 		param.put("friendId", friendId);		
 		return session.selectOne("chatting.findRoomById",param);
 	}
+
 }

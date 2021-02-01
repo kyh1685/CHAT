@@ -30,6 +30,10 @@ public class ChattingService {
 	}
 	
 	// Room
+	public List<RoomDTO> findAllRoomByUserId(String userId) {
+		return dao.findAllRoomByUserId(userId);
+	}
+	
 	public int insertRoom(String roomNumber,String roomName) {
 		return dao.insertRoom(roomNumber,roomName);
 	}
@@ -41,4 +45,5 @@ public class ChattingService {
 	public RoomDTO findRoomById(String userId,String friendId) {
 		return  dao.findRoomById(userId,friendId);
 	}
+
 }

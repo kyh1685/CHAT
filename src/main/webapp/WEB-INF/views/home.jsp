@@ -9,9 +9,8 @@
 	<input type="button" value="send" id="sendBtn">
 	<script>
 		document.getElementById("sendBtn").onclick = function(){
-			console.log("this is  home");
 			let userId = document.getElementById("userId").value;
-			location.href="/chat?userId="+userId;
+			location.href="/chatHome?userId="+userId;
 		}
 	</script>
 </body>

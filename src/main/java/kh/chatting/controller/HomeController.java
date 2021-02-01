@@ -22,31 +22,10 @@ import kh.chatting.service.ChattingService;
 
 @Controller
 public class HomeController {
-	@Autowired
-	private HttpSession session;
-	@Autowired
-	private ChattingService service;
 	
 	@RequestMapping("/")
 	public String home() {
-		/* session.setAttribute("id","Test"); */
 		return "home";
 	}
 	
-	@RequestMapping("/chat")
-	public String chat(Model model,HttpServletRequest request) {
-		String userId = request.getParameter("userId");
-		session.setAttribute("userId",userId);
-		
-		// 유저 정보
-		UserDTO user = service.getUserInfo(userId);
-		
-		// 친구리스트
-		List<FriendDTO> list = service.getFriendsList(userId); 
-		
-		model.addAttribute("user", user);
-		model.addAttribute("list",list);
-
-		return "chat";
-	}
 }

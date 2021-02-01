@@ -19,6 +19,10 @@
  	</insert>
  	
  	<!-- Room -->
+ 	<select id="findAllRoomByUserId" resultType="kh.chatting.dto.RoomDTO">
+ 		select * from chatRoom where roomNumber like '%'||#{userId}||'%'
+ 	</select>
+ 	
 	<insert id="insertRoom">
 		insert into chatRoom values(#{roomNumber},#{roomName})
 	</insert>
