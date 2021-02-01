@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import kh.chatting.dao.ChattingDAO;
 import kh.chatting.dto.FriendDTO;
+import kh.chatting.dto.MessageDTO;
 import kh.chatting.dto.RoomDTO;
 import kh.chatting.dto.UserDTO;
 
@@ -28,6 +29,11 @@ public class ChattingService {
 	public int insertMessage(String userId, String message, String roomNumber) {
 		return  dao.insertMessage(userId,message,roomNumber);
 	}
+	
+	public List<MessageDTO> getChatting(String roomNumber) {
+		return dao.getChatting(roomNumber);
+	}
+
 	
 	// Room
 	public List<RoomDTO> findAllRoomByUserId(String userId) {

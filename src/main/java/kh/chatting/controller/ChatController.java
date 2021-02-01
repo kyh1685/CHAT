@@ -71,9 +71,13 @@ public class ChatController {
 	
 	@RequestMapping("/chatDetail")
 	public String chatDetail(String roomNumber,Model model) {
+		System.out.println("여기는 자세히 보기");
 		String userId = (String) session.getAttribute("userId");
 		UserDTO user = service.getUserInfo(userId);
 		
+		List<MessageDTO> list = service.getChatting(roomNumber);
+		
+		model.addAttribute("list",list);
 		model.addAttribute("userId", userId);
 		model.addAttribute("roomNumber",roomNumber);
 		return "chat";

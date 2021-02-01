@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kh.chatting.dto.FriendDTO;
+import kh.chatting.dto.MessageDTO;
 import kh.chatting.dto.RoomDTO;
 import kh.chatting.dto.UserDTO;
 
@@ -33,6 +34,10 @@ public class ChattingDAO {
 		param.put("message", message);
 		param.put("roomNumber", roomNumber);
 		return session.insert("chatting.insertMessage", param);
+	}
+	
+	public List<MessageDTO> getChatting(String roomNumber) {
+		return session.selectList("chatting.getChatting",roomNumber);
 	}
 	
 	// Room

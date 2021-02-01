@@ -31,7 +31,20 @@
 	<div class="container">
 		<input type="text" id="userId" value="${userId }">
 		<input type="text" id="roomNumber" value="${roomNumber }">
-		<div class="contents"></div>
+		<div class="contents">
+			<c:if test="${list != null }">
+				<c:forEach var="dto" items="${list}">
+					<c:choose>
+						<c:when test="${dto.getUserId() == userId}">
+							<div class="me">${dto.getMessage() }</div>
+						</c:when>
+						<c:otherwise>
+							<div class="others">${dto.getUserId() } : ${dto.getMessage() }</div>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</c:if>
+		</div>
 		<div class="sendMsg">
 			<input type="text" id="message">
 			<button id="send">Send</button>

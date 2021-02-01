@@ -18,6 +18,10 @@
  		insert into chatMessage values(chatMessage_seq.nextval,#{userId},#{message},#{roomNumber})
  	</insert>
  	
+ 	<select id="getChatting" resultType="kh.chatting.dto.MessageDTO">
+ 		select * from chatMessage where roomNumber=#{roomNumber} order by seq
+ 	</select>
+ 	
  	<!-- Room -->
  	<select id="findAllRoomByUserId" resultType="kh.chatting.dto.RoomDTO">
  		select * from chatRoom where roomNumber like '%'||#{userId}||'%'
