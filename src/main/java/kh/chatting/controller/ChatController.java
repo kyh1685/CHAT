@@ -71,7 +71,6 @@ public class ChatController {
 	
 	@RequestMapping("/chatDetail")
 	public String chatDetail(String roomNumber,Model model) {
-		System.out.println("여기는 자세히 보기");
 		String userId = (String) session.getAttribute("userId");
 		UserDTO user = service.getUserInfo(userId);
 		
@@ -108,7 +107,6 @@ public class ChatController {
 	// 채팅방 생성
 	@RequestMapping("/roomCreate")
 	public void createRoom(String roomNumber,String roomName) {
-		System.out.println("여기는 룸생성!");
 		int result = service.insertRoom(roomNumber,roomName);
 		if(result>0) {
 			RoomDTO dto = service.findRoomByRoomNumber(roomNumber);
@@ -117,20 +115,23 @@ public class ChatController {
 	}
 
 	// 특정 채팅방 조회
-	@MessageMapping("/roomCheck")
-	public void roomInfo(String msg) {
-		JSONObject obj = JsonToObjectParser(msg);
-		String userId = (String) obj.get("userId");
-		String friendId = (String) obj.get("friendId");
-		String  roomNumber = (String)obj.get("roomNumber");
-		String  roomName = (String)obj.get("roomName");
-		RoomDTO dto = service.findRoomById(userId, friendId);
-		if(dto != null) {
-			template.convertAndSend("/topic/roomCheck",dto);
-		}else {
-			createRoom(roomNumber,roomName);
-		}
+	@RequestMapping("/roomCheck")
+	public String roomInfo(String userId,String friendId,String userName,String friendName,Model model) {
+		System.out.println("여기는 룸체크 userId는 "+userId);
+		System.out.println("여기는 룸체크 friendId는 "+friendId);
 		
+		String roomNumber = userId+"_"+friendId;
+		String roomName = userName+"와 "+friendName+"의 채팅방";
+		RoomDTO dto = service.findRoomById(userId, friendId);
+		
+		if(dto == null) {
+			int result = service.insertRoom(roomNumber,roomName);
+		}
+		List<MessageDTO> list = service.getChatting(roomNumber);
+		model.addAttribute("list",list);
+		model.addAttribute("userId", userId);
+		model.addAttribute("roomNumber",roomNumber);
+		return "chat";
 	}
 	
 	private static JSONObject JsonToObjectParser(String jsonStr) {

@@ -12,33 +12,33 @@
 	tr, td{
 		border: 1px solid black;
 	}
+	#enter{
+		cursor: pointer;
+	}
 </style>
 </head>
 <body>
-	<table>
+	<div class="container">
+		<table>
 		<th>채팅방</th>
-		<th>${user.getUserName() }</th>
-		<c:choose>
-			<c:when test="${list != null }">
-				<c:forEach var="dto" items="${list}">
-					<tr id="enter">
-						<td>이미지</td>
-						<td id="roomNumber">${dto.getRoomNumber() }</td>
-						<td id="roomName">${dto.getRoomName() }</td>
-					</tr>
-				</c:forEach>
-			</c:when>
-			<c:otherwise>채팅방이 없습니다.</c:otherwise>
-		</c:choose>
-		<th><button type="button">방 생성</button></th>
-	</table>
-	<div class="btn">
-		<a href="#">home</a>
-		<a href="/chatList">List</a>
+			<th>${user.getUserName() }</th>
+			<c:choose>
+				<c:when test="${list != null }">
+					<c:forEach var="dto" items="${list}">
+						<tr id="enter">
+							<td>이미지</td>
+							<td id="roomNumber">${dto.getRoomNumber() }</td>
+							<td id="roomName">${dto.getRoomName() }</td>
+						</tr>
+					</c:forEach>
+				</c:when>
+				<c:otherwise>채팅방이 없습니다.</c:otherwise>
+			</c:choose>
+		</table>
 	</div>
 	
 	<script>
-		$("#enter").on("click",function(){
+		$(".container").on("click","#enter",function(){
 			var roomNumber = $("#roomNumber").text();
 			location.href="/chatDetail?roomNumber="+roomNumber;
 		});

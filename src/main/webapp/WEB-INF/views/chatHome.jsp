@@ -65,20 +65,12 @@
 	</div>
 	
 	<script>
-	$("#friendName").on("dblclick",function(){
+	$(".container").on("dblclick","#friendName",function(){
 		var userId = $("#userId").val();
 		var friendId = $("#friendId").val();
 		var userName = $("#userName").text();
 		var friendName = $("#friendName").text();
-		var roomNumber = userId+'_'+friendId;
-		var roomName = userName+'와 '+friendName+'의 채팅방';
-		
-		client.send("/app/roomCheck",{},JSON.stringify({userId:userId,friendId:friendId,roomNumber:roomNumber,roomName:roomName}));
-		client.subscribe("/topic/roomCheck",function(msg){
-			console.log("요기는 룸체크 구독")
-			var result = JSON.parse(msg.body);
-			$("#roomNumber").val(result.roomNumber);
-		});
+		location.href="/roomCheck?userId="+userId+"&friendId="+friendId+"&userName="+userName+"&friendName="+friendName;
 	});
 	</script>
 </body>
