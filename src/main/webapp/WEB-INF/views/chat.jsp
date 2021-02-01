@@ -25,13 +25,12 @@
 	.contents .others{
 		text-align: left;
 	}
-	
-
 </style>
 </head>
 <body>
 	<div class="container">
-		<input type="text" id="roomNumber" value="roomNumber">
+		<input type="text" id="userId" value="${userId }">
+		<input type="text" id="roomNumber" value="${roomNumber }">
 		<div class="contents"></div>
 		<div class="sendMsg">
 			<input type="text" id="message">
@@ -45,7 +44,8 @@
 		
 		client.connect({},function(resp){ // {}는 헤더정보 없으면  빈 칸
 			console.log(resp);
-			client.subscribe("/topic/chat/{roomNumber}",function(msg){ // 구독할 url 넣기
+			var roomNumber = $("#roomNumber").val();
+			client.subscribe("/topic/chat/"+roomNumber,function(msg){ // 구독할 url 넣기
 				var result = JSON.parse(msg.body);
 				if(result.userId == $("#userId").val()){
 					$(".contents").append("<p class='me'>"+result.message+"</p>");

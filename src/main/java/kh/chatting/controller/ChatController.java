@@ -60,8 +60,8 @@ public class ChatController {
 	@RequestMapping("/chatList")
 	public String chatList(Model model) {
 		String userId = (String) session.getAttribute("userId");
-		// 유저 정보
 		UserDTO user = service.getUserInfo(userId);
+		
 		// 모든 채팅방 목록 반환
 		List<RoomDTO> list = service.findAllRoomByUserId(userId);
 		model.addAttribute("list",list);
@@ -70,7 +70,12 @@ public class ChatController {
 	}
 	
 	@RequestMapping("/chatDetail")
-	public String chatDetail() {
+	public String chatDetail(String roomNumber,Model model) {
+		String userId = (String) session.getAttribute("userId");
+		UserDTO user = service.getUserInfo(userId);
+		
+		model.addAttribute("userId", userId);
+		model.addAttribute("roomNumber",roomNumber);
 		return "chat";
 	}
 
@@ -87,7 +92,6 @@ public class ChatController {
 	@MessageMapping("/chat") // 리퀘스트가 http를 통해 접속하는 경우 쓰임. 웹소켓 접속은 다른 어노테이션
 	// @SendTo("/topic") // Proc 메서드 작업이 끝나면 response를 구독하는 사람한테만 메세지 보내는 설정 가능
 	public void chat(MessageDTO dto) {
-		System.out.println("여기는  챗!");
 		int result = service.insertMessage(dto.getUserId(),dto.getMessage(),dto.getRoomNumber());
 		if(result>0) {
 			template.convertAndSend("/topic/chat/"+dto.getRoomNumber(),dto);
@@ -109,7 +113,7 @@ public class ChatController {
 	}
 
 	// 특정 채팅방 조회
-	@RequestMapping("/roomCheck")
+	@MessageMapping("/roomCheck")
 	public void roomInfo(String msg) {
 		JSONObject obj = JsonToObjectParser(msg);
 		String userId = (String) obj.get("userId");
